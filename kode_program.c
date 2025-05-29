@@ -7,10 +7,10 @@ Tugas         : Tugas Pemrograman B
 Semester      : Genap 2024/2025
 
 Kelompok 6    :
-- Adhi Rajasa Rafif           
-- Javana Muhammad Dzaki  
-- Nugroho Ulil Abshar
-- Rivi Yasha
+- Adhi Rajasa Rafif        2306266943      
+- Javana Muhammad Dzaki    2306161826
+- Nugroho Ulil Abshar      2306229310
+- Rivi Yasha Hafizhan      2306250535
 
 Input         : File CSV berisi parameter rangkaian (data.csv)
 Output        : File CSV berisi hasil analisis (results.csv)

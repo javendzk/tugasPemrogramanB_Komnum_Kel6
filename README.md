@@ -1,28 +1,19 @@
 # Tugas Pemrograman B Komputasi Numerik – Analisis Diode Circuit dengan Metode Secant
 
 ## Kelompok 6
-- Adhi Rajasa Rafif
-- Javana Muhammad Dzaki
-- Nugroho Ulil Abshar
-- Rivi Yasha
+- Adhi Rajasa Rafif        2306266943      
+- Javana Muhammad Dzaki    2306161826
+- Nugroho Ulil Abshar      2306229310
+- Rivi Yasha Hafizhan      2306250535
 
 ## Deskripsi
-Proyek ini merupakan implementasi analisis rangkaian dioda menggunakan **Metode Secant** sesuai dengan buku Chapman (Bab 6). Program membaca data permasalahan dari file CSV, menyelesaikan persamaan nonlinear untuk rangkaian dioda dan dioda dengan resistor, lalu menuliskan hasilnya ke file CSV.
-
-## Fitur Utama
-- Membaca parameter masalah dari file `data.csv`.
-- Menyelesaikan persamaan nonlinear untuk dua tipe masalah:
-  - Dioda saja (`diode`)
-  - Dioda dengan resistor (`diode_resistor`)
-- Menggunakan metode secant untuk mencari solusi.
-- Menyimpan hasil simulasi ke file `results.csv`.
-- Menampilkan proses iterasi, error, dan waktu eksekusi di terminal.
+Proyek ini merupakan implementasi analisis rangkaian dioda menggunakan **Metode Secant** sesuai dengan buku Chapman (Bab 6). Program membaca data permasalahan dari file CSV, menyelesaikan persamaan nonlinear untuk rangkaian dioda dan dioda dengan resistor, lalu menuliskan hasilnya ke file CSV
 
 ## Struktur File
-- `kode_program.c`  : Source code utama program.
-- `data.csv`        : File input parameter masalah (edit sesuai kebutuhan).
-- `results.csv`     : File output hasil simulasi.
-- `secant_solver.exe`: (Jika ada) File executable hasil kompilasi.
+- `kode_program.c`  : Source code utama program
+- `data.csv`        : File input parameter masalah 
+- `results.csv`     : File output hasil simulasi
+- `secant_solver.exe`     : File executable hasil kompilasi
 
 ## Cara Menjalankan
 1. **Edit file `data.csv`** sesuai format yang diharapkan (lihat contoh di bawah).
@@ -56,10 +47,3 @@ diode,Is,1e-12,n,1,Vt,0.025,I,0.002,,,,,0.5,0.7,1e-6,100
 - **x0, x1**: Tebakan awal metode secant
 - **tolerance**: Toleransi error
 - **max_iterations**: Iterasi maksimum
-
-## Catatan
-- Pastikan urutan dan jumlah parameter sesuai dengan tipe masalah.
-- Program akan menampilkan peringatan jika metode gagal konvergen.
-
-## Lisensi
-Proyek ini untuk keperluan pembelajaran Komputasi Numerik.
