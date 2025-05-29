@@ -48,7 +48,7 @@ int main() {
     double errors[100];
     double times[100];
     
-    readCsvFile("data.csv", problems, &problemCount);
+    readCsvFile("./data-io/data.csv", problems, &problemCount);
     
     printf("Jumlah masalah yang ditemukan: %d\n", problemCount);
     
@@ -58,6 +58,9 @@ int main() {
         printf("\n>> Secant Solving ke %d: %s\n", i + 1, problems[i].problemType);
         
         if (strcmp(problems[i].problemType, "diode") == 0) {
+            double f0 = diodeFunction(problems[i].x0, problems[i].paramValues);
+            double f1 = diodeFunction(problems[i].x1, problems[i].paramValues);
+            printf("Nilai awal: f(x0) = %e, f(x1) = %e\n", f0, f1);
             solutions[i] = secantMethod(diodeFunction, problems[i].x0, problems[i].x1, 
                                         problems[i].paramValues, problems[i].tolerance, 
                                         problems[i].maxIterations, &iterations[i], 
@@ -90,10 +93,15 @@ int main() {
         }
     }
     
-    printf("\nWriting to csv\n");
-    writeCsvFile("results.csv", problems, problemCount, solutions, iterations, converged, errors, times);
+    writeCsvFile("./data-io/results.csv", problems, problemCount, solutions, iterations, converged, errors, times);
     
     printf("[v] Simulasi done\n");
+    
+    for (double v = 0.0; v <= 1.0; v += 0.1) {
+        double f_val = diodeFunction(v, problems[0].paramValues);
+        printf("v = %lf, f(v) = %e\n", v, f_val);
+    }
+    
     return 0;
 }
 
@@ -102,6 +110,8 @@ double diodeFunction(double v, double* params) {
     double n = params[1];    // ideality 
     double Vt = params[2];   // voltage thermnal
     double I = params[3];    // arus di diode
+    
+    printf("diodeFunction params: Is = %e, n = %f, Vt = %f, I = %e\n", Is, n, Vt, I);
     
     return Is * (exp(v / (n * Vt)) - 1) - I;
 }
@@ -121,39 +131,45 @@ double secantMethod(double (*f)(double, double*), double x0, double x1, double* 
     double f0 = f(x0, params);
     double f1 = f(x1, params);
     double x2;
-    
+
     *iterations = 0;
     *converged = 0;
-    
+
     while (*iterations < maxIter) {
+        printf("Iterasi %d: x0 = %lf, f(x0) = %e, x1 = %lf, f(x1) = %e\n", *iterations, x0, f0, x1, f1);
+
         if (fabs(f1 - f0) < 1e-15) {
-            printf("[!] Pembagian oleh nilai mendekati nol\n");
-            break;
+            x0 -= 0.1;
+            x1 += 0.1;
+            f0 = f(x0, params);
+            f1 = f(x1, params);
+            printf("Adjusted x0 = %lf, f(x0) = %e, x1 = %lf, f(x1) = %e\n", x0, f0, x1, f1);
+            printf("After adjustment: x0 = %lf, f(x0) = %e, x1 = %lf, f(x1) = %e\n", x0, f0, x1, f1);
         }
-        
+
+        if (fabs(f1 - f0) < 1e-15) {
+            *converged = 0;
+            return x1;
+        }
+
         x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
         *error = fabs(x2 - x1);
-        
-        printf("Iterasi %d: x = %.10lf, f(x) = %.10e, error = %.10e\n", 
-              *iterations + 1, x2, f(x2, params), *error);
-        
+
+        printf("Iterasi %d: x2 = %lf, f(x2) = %e\n", *iterations, x2, f(x2, params));
+
         if (*error < tol) {
             *converged = 1;
-            *iterations = *iterations + 1;
             return x2;
         }
-        
+
         x0 = x1;
         f0 = f1;
         x1 = x2;
         f1 = f(x2, params);
-        
-        *iterations = *iterations + 1;
+
+        (*iterations)++;
     }
-    
-    if (*iterations >= maxIter)
-        printf("Peringatan: Mencapai batas iterasi maksimum\n");
-    
+
     return x1;
 }
 
